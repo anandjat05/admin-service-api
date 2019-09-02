@@ -1,0 +1,228 @@
+swagger: "2.0"
+info:
+  description: "This is a "
+  version: "1.0.0"
+  title: "Admin Service API"
+  termsOfService: "https://www.idexcel.com/privacy-statement/"
+  contact:
+    email: "anandjat08@gmail.com"
+  license:
+    name: "Tomcat 2.0"
+host: "localhost:8080"
+basePath: "/api"
+tags:
+- name: "Admin Service"
+  description: "admin serrvice details"
+  externalDocs:
+    description: "Find out more"
+    url: "https://www.idexcel.com"
+schemes:
+- "http"
+paths:
+  /Lenders:
+    get:
+      tags:
+      - "Admin Service"
+      summary: "get all the lender details"
+      description: "returns list of venders available in database"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "ok"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Lender"
+        405:
+          description: "banks list not found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Nolender"
+    post:
+      tags:
+      - "Admin Service"
+      summary: "add new fields: name & address"
+      description: "if the entry already exist it will return 409"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "bank object that needs to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Bank"
+      responses:
+        400:
+          description: "the name or address is not specified"
+        409:
+          description: "bank object already exist"
+        201:
+          description: "bank object successfully created in the databasae"
+     
+  /lender/{lenderId}:
+    get:
+      tags:
+      - "Admin Service"
+      summary: "get the lenders by specific ID"
+      description: "accepts the lenderId and returns the lender with the Id provided, if the Id doesnot exists returns a 404(not found) error"
+      operationId: "getLendersbyId"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "lenderId"
+        in: "path"
+        description: "ID of lender that has to be fatched"
+        required: true
+        type: "integer"
+        format: "int64"    
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Lender"
+        404:
+          description: "not found"
+      
+    put:
+      tags: 
+      - "Admin Service"
+      summary: "update the lender for the specific id"
+      description: "updates the lender with the id specified on the path variable"
+      operationId: "updateLender"
+      parameters:
+      - name: "lenderId"
+        in: "path"
+        description: "update lender object"
+        type: "integer"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "updated lender object"
+        required: true
+        schema:
+          $ref: "#/definitions/Lender"
+      responses:
+        204:
+          description: "no content"
+        404:
+          description: "ID not found"
+      
+    delete:
+      tags:
+      - "Admin Service"
+      summary: "deletes the lender at specific ID"
+      description: "deletes the lender for the specified Id and if the ID nptfound, respods with 404 not found and if the content is empty, the response is 204"
+      operationId: "deleteById"
+      parameters:
+      - name: "lenderId"
+        in: "path"
+        description: "Id of the lender to be deleted"
+        type: "integer"
+        required: true
+      responses:
+        204:
+          description: "no content"
+        404:
+          description: "lender with Id not found"
+          
+    head:
+      tags:
+      - "Admin Service"
+      summary: "Returns the status line and header section"
+      description: "Head accepts the Lender Id and returs the header and status. If the data cannot be able retrieved, 404 error is reported"
+      operationId: "getHeaderInfo"
+      parameters:
+      - name: "lenderId"
+        in: "path"
+        description: "lenderId"
+        type: "integer"
+        required: true
+      responses:
+        200:
+          description: "ok"
+        404:
+          description: "not found"
+          
+  /lender/{lenderId}/status:
+    patch:
+      tags:
+      - "Admin Service"
+      summary: "update the id and status"
+      description: "updates the id and status of the lender specified by the Lender speified by the lender ID."
+      operationId: "updatePatch"
+      parameters:
+      - name: "lenderId"
+        in: "path"
+        description: "id of the lender to be updated"
+        type: "integer"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "path for update"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdatePatch"
+      responses:
+          204:
+            description: "no content"
+          404:
+            description: "not found"
+definitions:
+  Lender:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      address:
+        $ref: "#/definitions/Address"
+      status:
+        type: "string"
+      createdAt:
+        type: "string"
+        format: "date-time"
+      updatedBy:
+        type: "string"
+      updatedAt:
+        type: "string"
+  Address:
+    type: "object"
+    properties:
+      street:
+        type: "string"
+      city:
+        type: "string"
+      state:
+        type: "string"
+      zipcode:
+        type: "string"
+      county:
+        type: "string"
+        
+  Nolender:
+    type: "object"
+    
+  Bank:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      address:
+        $ref: "#/definitions/Address"
+        
+  UpdatePatch:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      status:
+        type: "string"
+        
