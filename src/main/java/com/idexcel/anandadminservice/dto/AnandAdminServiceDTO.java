@@ -25,6 +25,12 @@ public class AnandAdminServiceDTO {
 		
 	}
 
+	public AnandAdminServiceDTO(@NotNull String name, @NotNull Address address) {
+		this.name = name;
+		this.address = address;
+	}
+
+
 	public String getName() {
 		return name;
 	}

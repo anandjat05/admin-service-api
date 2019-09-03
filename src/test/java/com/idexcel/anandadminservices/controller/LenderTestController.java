@@ -10,16 +10,25 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.Calendar;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.idexcel.anandadminservice.AnandAdminServiceApplication;
 import com.idexcel.anandadminservice.dto.AnandAdminServiceDTO;
+import com.idexcel.anandadminservice.entity.Address;
+import com.idexcel.anandadminservice.entity.Lender;
+import com.idexcel.anandadminservice.exception.LenderNotFoundException;
 import com.idexcel.anandadminservice.service.impl.AdminInterfaceService;
 
 @RunWith(SpringRunner.class)
@@ -42,36 +51,75 @@ public class LenderTestController {
 	AdminInterfaceService adminInterfaceService;
 	
 	@Test
-	public void lenderCreateTest() throws Exception {
+	public void postAdminTest() throws Exception {
 		
-		when(adminInterfaceService.save(any(AnandAdminServiceDTO.class))).thenReturn("Return Any Id");
-		mockMvc.perform( MockMvcRequestBuilders
-				.post("/lenders")
-				.content(convertObjectToJson(getLender()))
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isCreated());
+		AnandAdminServiceDTO theAnandAdminServiceDTO = new AnandAdminServiceDTO("Testing Name", new Address("Laurel Ave", "Hayward", "CA", "94541", "USA"));
+		when(adminInterfaceService.save(theAnandAdminServiceDTO)).thenReturn("123");	
+		RequestBuilder request = MockMvcRequestBuilders.get("/api/lenders").contentType(MediaType.APPLICATION_JSON);
+		mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+	
 	}
 	
 	@Test
-	public void test() throws Exception {
-		mockMvc.perform( MockMvcRequestBuilders
-				.get("/lenders/test")).andExpect(status().isOk());
+	public void deleteAdminTest() throws Exception {
+		String id = "123";
+		adminInterfaceService.deleteById(id);
+		RequestBuilder request = MockMvcRequestBuilders.delete("/api/lenders/123");	
+		mockMvc.perform(request).andExpect(status().isOk()).andReturn();
+		
+		
 	}
 	
-	//Usable method 
-	private static String convertObjectToJson(final Object obj) {
-		try {
-			return new ObjectMapper().writeValueAsString(obj);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	@Test
+	public void getAdminsByIdTest() throws Exception {
+		
+	Lender lender = new Lender("123", "Testing Name", new Address("wordsworth ct", "herndon", "VA", "20171", "USA"), 
+			"Anand Jat", null, "Anand", null, "Active");
+		
+		
+		when(adminInterfaceService.findById("123")).thenReturn(lender);
+		
+		RequestBuilder request = MockMvcRequestBuilders.get("/api/lenders/123");
+		
+		
+		String jsonContent = "{" + 
+				"\"id\": \"123\"," + 
+				"\"name\": \"Testing Name\"," + 
+				"\"address\": {" + 
+				"\"street\": \"wordsworth ct\"," + 
+				"\"city\": \"herndon\"," + 
+				"\"state\": \"VA\"," + 
+				"\"zipCode\": \"20171\"," + 
+				"\"country\": \"USA\"" + 
+				"}," + 
+				"\"status\": \"Active\"," + 
+				"\"createdBy\": \"Anand Jat\"," + 
+				"\"updatedBy\": \"Anand\"," + 
+				"\"createdDate\": \"null\"," + 
+				"\"updatedDate\": \"null\"" + 
+				"}";
+		mockMvc.perform(request).andExpect(status().isOk()).andExpect(content().json(jsonContent)).andReturn();
+		
+		
 	}
 	
-	private static AnandAdminServiceDTO getLender() {
-		AnandAdminServiceDTO theAnandAdminServiceDTO = new AnandAdminServiceDTO();
-		theAnandAdminServiceDTO.setName("My Tesing Lender");
-		return theAnandAdminServiceDTO;
+	@Test
+	public void patchAdminById() throws Exception{
+		Lender lender = new Lender("123", "Testing Name", new Address("wordsworth ct", "herndon", "VA", "20171", "USA"), 
+				"Anand Jat", null, "Anand", null, "Active");
+		adminInterfaceService.update(lender, "123456");
+		RequestBuilder request = MockMvcRequestBuilders.patch("/api/Lenders/12345678/status");
+				
+		mockMvc.perform(request)
+			   .andExpect(status().isNotFound())
+			   .andReturn();
+
+		
 	}
+	
+	
+	
+	
+
 	
 }
