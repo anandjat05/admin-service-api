@@ -1,14 +1,5 @@
 package com.idexcel.anandadminservice.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class LenderPatchDTO {
 	
 	private String id;
@@ -17,6 +8,12 @@ public class LenderPatchDTO {
 	public LenderPatchDTO() {
 		
 	}
+	
+	public LenderPatchDTO(String id, String status) {
+		this.id = id;
+		this.status = status;
+	}
+
 	public String getId() {
 		return id;
 	}

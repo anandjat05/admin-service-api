@@ -2,18 +2,9 @@ package com.idexcel.anandadminservice.dto;
 
 import com.idexcel.anandadminservice.entity.Address;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-
 public class AnandAdminServiceGetAllDTO {
 	
 	private String id;

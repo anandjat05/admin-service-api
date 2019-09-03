@@ -3,16 +3,10 @@ package com.idexcel.anandadminservice.dto;
 import javax.validation.constraints.NotNull;
 
 import com.idexcel.anandadminservice.entity.Address;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @ToString
-@Getter
 public class AnandAdminServiceDTO {
 	
 	@NotNull
