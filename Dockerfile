@@ -6,6 +6,6 @@ EXPOSE 8080
 
 WORKDIR /usr/local/bin
 
-COPY ./target/admin-service-0.0.1-SNAPSHOT.jar admin-service-0.0.1-SNAPSHOT.jar 
+COPY ./target/anand-admin-service-0.0.1-SNAPSHOT.jar anand-admin-service-0.0.1-SNAPSHOT.jar 
 
-CMD ["java","-jar","admin-service-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","anand-admin-service-0.0.1-SNAPSHOT.jar"]
