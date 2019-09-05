@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.idexcel.anandadminservice.dto.AnandAdminServiceDTO;
 import com.idexcel.anandadminservice.dto.LenderPatchDTO;
 import com.idexcel.anandadminservice.entity.Lender;
+import com.idexcel.anandadminservice.entity.Post;
 import com.idexcel.anandadminservice.exception.LenderNotFoundException;
 import com.idexcel.anandadminservice.service.impl.AdminInterfaceService;
 
@@ -99,8 +100,18 @@ public class LenderController {
 	public String getHealth() {
 		return "Anand Admin Service is Running";
 	}
+	//Calling other microservices to communicate each other
+	//We use rest Template
 	
+	@GetMapping("/post/{id}")
+	public ResponseEntity<Post> getAllPost(@PathVariable int id){
+		return adminInterfaceService.getPostByIdExternal(id);
+	}
 	
+	@GetMapping("/posts")
+	public ResponseEntity<List> getAllPost(){
+		return adminInterfaceService.getUserPostExternal();
+	}
 	
 	
 }
