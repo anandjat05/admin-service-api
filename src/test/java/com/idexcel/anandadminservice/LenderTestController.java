@@ -1,5 +1,4 @@
-package com.idexcel.anandadminservices.controller;
-
+package com.idexcel.anandadminservice;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
