@@ -59,50 +59,6 @@ public class LenderTestController {
 		mockMvc.perform(request).andExpect(status().isOk()).andReturn();
 	
 	}
-//	
-//	@Test
-//	public void deleteAdminTest() throws Exception {
-//		String id = "123";
-//		adminInterfaceService.deleteById(id);
-//		RequestBuilder request = MockMvcRequestBuilders.delete("/api/lenders/123");	
-//		mockMvc.perform(request).andExpect(status().isOk()).andReturn();
-//		
-//		
-//	}
-	
-//	@Test
-//	public void getAdminsByIdTest() throws Exception {
-//		
-//	Lender lender = new Lender("123", "Testing Name", new Address("wordsworth ct", "herndon", "VA", "20171", "USA"), 
-//			"Anand Jat", null, "Anand", null, "Active");
-//		
-//		
-//		when(adminInterfaceService.findById("123")).thenReturn(lender);
-//		
-//		RequestBuilder request = MockMvcRequestBuilders.get("/api/lenders/123");
-//		
-//		
-//		String jsonContent = "{" + 
-//				"\"id\": \"123\"," + 
-//				"\"name\": \"Testing Name\"," + 
-//				"\"address\": {" + 
-//				"\"street\": \"wordsworth ct\"," + 
-//				"\"city\": \"herndon\"," + 
-//				"\"state\": \"VA\"," + 
-//				"\"zipCode\": \"20171\"," + 
-//				"\"country\": \"USA\"" + 
-//				"}," + 
-//				"\"createdBy\": \"Anand Jat\"," + 
-//				"\"createdDate\": null" + 
-//				"\"updatedBy\": \"Anand\"," + 
-//				"\"updatedDate\": null" + 
-//				"\"status\": \"Active\"" +
-//				"}";
-//		mockMvc.perform(request).andExpect(status().isOk()).andExpect(content().json(jsonContent)).andReturn();
-//		
-//		
-//	}
-//	
 	@Test
 	public void patchAdminById() throws Exception{
 		Lender lender = new Lender("123", "Testing Name", new Address("wordsworth ct", "herndon", "VA", "20171", "USA"), 
