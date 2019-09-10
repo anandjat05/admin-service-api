@@ -116,7 +116,7 @@ public class LenderController {
 	@GetMapping("/health")
 	public String healthCheck() {
 	
-		return "Up and Running";
+		return "Up and Running, Its awesome!!";
 	}
 	
 }
