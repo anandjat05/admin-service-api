@@ -113,5 +113,10 @@ public class LenderController {
 		return adminInterfaceService.getUserPostExternal();
 	}
 	
+	@GetMapping("/health")
+	public String healthCheck() {
+	
+		return "Up and Running";
+	}
 	
 }
