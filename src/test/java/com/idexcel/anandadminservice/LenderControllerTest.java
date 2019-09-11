@@ -33,7 +33,7 @@ import com.idexcel.anandadminservice.service.impl.AdminInterfaceService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=AnandAdminServiceApplication.class)
 @WebAppConfiguration
-public class LenderTestController {
+public class LenderControllerTest {
 	
 	
 	protected MockMvc mockMvc;
